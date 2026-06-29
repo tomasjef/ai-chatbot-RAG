@@ -1,5 +1,5 @@
 class Admin::AssistantsController < ApplicationController
-  http_basic_authenticate_with name: "admin", password: "halo-demo"
+  before_action :authenticate_admin_access
 
   def index
     @assistants = Assistant.all
@@ -17,7 +17,8 @@ class Admin::AssistantsController < ApplicationController
       count = IngestionService.call(
         @assistant,
         uploaded.path,
-        source_name: uploaded.original_filename
+        source_name: uploaded.original_filename,
+        attachable: uploaded
       )
       redirect_to admin_assistant_path(@assistant),
                   notice: "Ingested #{count} passages from #{uploaded.original_filename}."

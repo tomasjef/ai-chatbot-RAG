@@ -1,11 +1,11 @@
 class AnswerService
   MODEL = "gpt-4.1-mini"
 
-  def self.call(assistant, question, entries)
-    new.call(assistant, question, entries)
+  def self.call(assistant, question, entries, conversation_history = [])
+    new.call(assistant, question, entries, conversation_history)
   end
 
-  def call(assistant, question, entries)
+  def call(assistant, question, entries, conversation_history = [])
     response = client.chat(
       parameters: {
         model: MODEL,
@@ -13,7 +13,7 @@ class AnswerService
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: system_prompt(assistant) },
-          { role: "user",   content: user_prompt(question, entries) }
+          { role: "user",   content: user_prompt(question, entries, conversation_history) }
         ]
       }
     )
@@ -42,12 +42,31 @@ class AnswerService
     ENGINE
   end
 
-  def user_prompt(question, entries)
+  def user_prompt(question, entries, conversation_history)
     numbered = entries.each_with_index.map do |e, i|
       "Source #{i + 1}: #{e.title}\n#{e.content}"
     end.join("\n\n")
 
-    "Context:\n#{numbered}\n\nQuestion: #{question}"
+    <<~PROMPT
+      Context:
+      #{numbered}
+
+      Recent conversation:
+      #{conversation_history_text(conversation_history)}
+
+      Current question: #{question}
+
+      Use the recent conversation only to understand follow-up references. Use the
+      provided sources for factual claims.
+    PROMPT
+  end
+
+  def conversation_history_text(conversation_history)
+    Array(conversation_history).last(8).map do |message|
+      role = message["role"] || message[:role]
+      content = message["content"] || message[:content]
+      "#{role}: #{content}"
+    end.join("\n").presence || "None"
   end
 
   def client

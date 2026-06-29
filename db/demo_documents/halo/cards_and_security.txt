@@ -1,0 +1,19 @@
+Halo card support and account security
+
+If a customer's card is lost or stolen, they should freeze it immediately in
+the Halo app under Card settings. Freezing the card blocks new payments. The
+customer should then contact Halo support so the card can be cancelled and a
+replacement sent. Replacement cards are free and usually arrive within 3 to 5
+working days.
+
+Customers can freeze and unfreeze their card at any time in the app. Freezing
+is useful when a card is misplaced because it stops new payments instantly but
+does not cancel the card. If the card is gone for good, the customer should
+report it to support.
+
+Halo does not use passwords for login. Customers sign in using a magic link
+sent to their registered email address. On mobile, biometric login such as Face
+ID or fingerprint can be used for extra convenience.
+
+Halo support should never ask customers for full card numbers, PINs, passwords,
+or one-time passcodes.

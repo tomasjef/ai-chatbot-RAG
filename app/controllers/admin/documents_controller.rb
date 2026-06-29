@@ -1,5 +1,5 @@
 class Admin::DocumentsController < ApplicationController
-  http_basic_authenticate_with name: "admin", password: "halo-demo"
+  before_action :authenticate_admin_access
 
   def destroy
     document  = Document.find(params[:id])

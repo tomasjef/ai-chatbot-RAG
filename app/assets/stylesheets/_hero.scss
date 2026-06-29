@@ -3,17 +3,19 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--space-4) 0 var(--space-4);
+  padding: var(--space-3) 0 var(--space-4);
 }
 
 .hero__nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-3);
   width: 100%;
-  margin-bottom: var(--space-5);
+  margin-bottom: 2.75rem;
 
   @media (max-width: 480px) {
+    align-items: flex-start;
     margin-bottom: var(--space-4);
   }
 }
@@ -21,10 +23,19 @@
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--space-2);
+  min-width: 0;
 }
 
-.wordmark__mark { width: 34px; height: 34px; display: block; }
+.wordmark__mark { width: var(--brand-mark-size); height: var(--brand-mark-size); display: block; }
+
+.wordmark__copy {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  line-height: 1.1;
+}
 
 .wordmark__name {
   font-family: var(--font-display);
@@ -35,33 +46,39 @@
   color: var(--ink);
 }
 
-.pill-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 5px 13px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 1px 2px rgba(13,27,42,0.05);
+.wordmark__descriptor {
+  margin-top: 0.16rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
 }
 
-.pill-badge__label { font-size: var(--text-sm); font-weight: 500; color: var(--ink); }
+.hero__actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
 
 .hero__title {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: 700;
-  line-height: 1;
+  line-height: var(--leading-tight);
   letter-spacing: -0.02em;
   color: var(--ink);
+  max-width: 11ch;
 }
 
 .hero__lede {
-  margin: 0 auto var(--space-4);
+  margin: 0 auto 1.35rem;
   color: var(--ink-soft);
   font-size: var(--text-lg);
-  line-height: 1.6;
+  line-height: var(--leading-loose);
+  max-width: 34rem;
+  width: 100%;
 
   @media (max-width: 480px) {
     font-size: var(--text-base);

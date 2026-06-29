@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+<% assistant_profile_config = assistant_profile(@assistant) %>
 <html>
   <head>
-    <title><%= content_for(:title) || "Ai Chatbot" %></title>
+    <title><%= content_for(:title) || assistant_profile_config[:app_name] %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Ai Chatbot Rag">
+    <meta name="application-name" content="<%= assistant_profile_config[:app_name] %>">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -13,21 +14,22 @@
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-    <link rel="icon" type="image/svg+xml" href="<%= asset_path('halo-badge.svg') %>">
+    <link rel="icon" type="image/svg+xml" href="<%= asset_path(assistant_profile_config[:brand_mark]) %>">
     <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <% if assistant_font_stylesheet_url(assistant_profile_config) %>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="<%= assistant_font_stylesheet_url(assistant_profile_config) %>" rel="stylesheet">
+    <% end %>
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-assistant-profile="<%= assistant_profile_config[:key] %>" style="<%= assistant_theme_style(assistant_profile_config) %>">
     <div class="aurora" aria-hidden="true"></div>
     <main class="page">
       <%= yield %>
