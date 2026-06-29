@@ -1,0 +1,40 @@
+<div class="chat">
+  <header class="hero">
+    <div class="hero__nav">
+      <div class="wordmark">
+        <%= image_tag "halo-badge.svg", class: "wordmark__mark", alt: "" %>
+        <span class="wordmark__name">HALO</span>
+      </div>
+      <span class="pill-badge">
+        <span class="pill-badge__label">Banking Support</span>
+      </span>
+    </div>
+
+    <h1 class="hero__title">Answers, not guesswork.</h1>
+
+    <p class="hero__lede">Ask anything about your account. Every answer is grounded in real documents, with its sources shown.</p>
+
+    <%= form_with url: ask_assistant_path(@assistant), method: :post, data: { turbo: false }, class: "ask" do |f| %>
+      <%= f.text_field :question, value: @question, placeholder: "Ask a question…", class: "ask__input" %>
+      <%= f.submit "Ask", class: "ask__button" %>
+    <% end %>
+  </header>
+
+  <% if @answer.present? %>
+    <section class="answer">
+      <span class="eyebrow eyebrow--brand">Answer</span>
+      <p class="answer__text"><%= @answer %></p>
+
+      <% if @used_entries.present? && @used_entries.any? %>
+        <div class="sources">
+          <span class="sources__label">Sources</span>
+          <ul class="sources__list">
+            <% @used_entries.each do |entry| %>
+              <li class="chip"><%= entry.title %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+</div>

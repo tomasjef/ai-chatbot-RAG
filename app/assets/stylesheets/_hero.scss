@@ -1,0 +1,70 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-4) 0 var(--space-4);
+}
+
+.hero__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: var(--space-5);
+
+  @media (max-width: 480px) {
+    margin-bottom: var(--space-4);
+  }
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.wordmark__mark { width: 34px; height: 34px; display: block; }
+
+.wordmark__name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 5px 13px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 1px 2px rgba(13,27,42,0.05);
+}
+
+.pill-badge__label { font-size: var(--text-sm); font-weight: 500; color: var(--ink); }
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.hero__lede {
+  margin: 0 auto var(--space-4);
+  color: var(--ink-soft);
+  font-size: var(--text-lg);
+  line-height: 1.6;
+
+  @media (max-width: 480px) {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-3);
+  }
+}

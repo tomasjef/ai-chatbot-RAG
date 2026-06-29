@@ -1,0 +1,22 @@
+.aurora {
+  position: fixed;
+  inset: -25%;
+  z-index: -1;
+  filter: blur(80px) saturate(110%);
+  opacity: 0.80;
+  background:
+    radial-gradient(45% 55% at 18% 28%, #c2d8ff 0%, transparent 65%),
+    radial-gradient(38% 48% at 76% 22%, #ffddb8 0%, transparent 65%),
+    radial-gradient(50% 55% at 62% 72%, #e2ccff 0%, transparent 65%),
+    radial-gradient(42% 50% at 28% 82%, #bbedff 0%, transparent 65%);
+  background-color: #f9f9fd;
+  animation: drift 32s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-3%, 2%) scale(1.08); }
+  100% { transform: translate(2%, -2%) scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) { .aurora { animation: none; } }

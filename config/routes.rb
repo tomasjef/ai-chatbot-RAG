@@ -1,6 +1,20 @@
 Rails.application.routes.draw do
-  root "chats#index"
-  post "ask", to: "chats#ask", as: :ask
+  # Customer-facing: ask questions
+  resources :assistants, only: [:index, :show] do
+    member do
+      post :ask
+    end
+  end
 
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Admin-facing: manage the knowledge base
+  namespace :admin do
+    resources :assistants, only: [:index, :show] do
+      member do
+        post :ingest
+      end
+    end
+    resources :documents, only: [:destroy]
+  end
+
+  root "assistants#index"
 end

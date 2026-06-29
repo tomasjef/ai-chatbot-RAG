@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_203808) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_19_073731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -22,16 +22,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_203808) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "documents", force: :cascade do |t|
+    t.bigint "assistant_id", null: false
+    t.datetime "created_at", null: false
+    t.string "filename"
+    t.datetime "updated_at", null: false
+    t.index ["assistant_id"], name: "index_documents_on_assistant_id"
+  end
+
   create_table "knowledge_entries", force: :cascade do |t|
     t.bigint "assistant_id", null: false
     t.string "category"
     t.text "content"
     t.datetime "created_at", null: false
+    t.bigint "document_id"
     t.vector "embedding", limit: 1536
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["assistant_id"], name: "index_knowledge_entries_on_assistant_id"
+    t.index ["document_id"], name: "index_knowledge_entries_on_document_id"
   end
 
+  add_foreign_key "documents", "assistants"
   add_foreign_key "knowledge_entries", "assistants"
+  add_foreign_key "knowledge_entries", "documents"
 end

@@ -1,0 +1,28 @@
+<h1>Manage: <%= @assistant.name %></h1>
+<p><%= link_to "← All assistants (admin)", admin_assistants_path %></p>
+
+<% if notice %><p style="color: green;"><%= notice %></p><% end %>
+<% if alert %><p style="color: crimson;"><%= alert %></p><% end %>
+
+<h2>Upload a document</h2>
+<%= form_with url: ingest_admin_assistant_path(@assistant), method: :post, data: { turbo: false } do |f| %>
+  <%= f.file_field :file, accept: "application/pdf" %>
+  <%= f.submit "Upload document" %>
+<% end %>
+
+<h2>Uploaded documents</h2>
+<% if @assistant.documents.any? %>
+  <ul>
+    <% @assistant.documents.order(:created_at).each do |document| %>
+      <li>
+        <strong><%= document.filename %></strong>
+        <small>(<%= document.knowledge_entries.count %> passages)</small>
+        <%= button_to "Delete", admin_document_path(document), method: :delete, data: { turbo: false } %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No documents uploaded yet.</p>
+<% end %>
+
+<p><small>Plus <%= @assistant.knowledge_entries.where(document_id: nil).count %> curated entries.</small></p>

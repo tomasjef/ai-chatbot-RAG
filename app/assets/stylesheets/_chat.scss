@@ -1,0 +1,20 @@
+.back {
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-4);
+
+  a {
+    color: var(--ink-soft);
+    text-decoration: none;
+
+    &:hover { color: var(--brand); }
+  }
+}
+
+.chat__head {
+  margin-bottom: var(--space-4);
+  text-align: center;
+
+  h1 { margin: 0 0 var(--space-2); }
+}
+
+.lede { color: var(--ink-soft); margin: 0; }
