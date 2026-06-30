@@ -1,15 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "history", "thread", "latest", "clearButton"]
+  static targets = ["input", "history", "thread", "latest", "thinking", "heroSection", "chatSection"]
   static values = {
-    storageKey: String,
+    storageKey: { type: String, default: "halo:messages" },
     maxMessages: { type: Number, default: 10 },
     latestQuestion: String,
     latestAnswer: String,
-    latestSources: Array,
-    sourcesLabel: { type: String, default: "Sources" },
-    assistantLabel: { type: String, default: "Answer" }
+    latestSources: Array
   }
 
   connect() {
@@ -37,7 +35,9 @@ export default class extends Controller {
   }
 
   prepareSubmit = () => {
-    this.historyTarget.value = JSON.stringify(this.messages.slice(-this.maxMessagesValue))
+    const history = JSON.stringify(this.messages.slice(-this.maxMessagesValue))
+    this.historyTargets.forEach((target) => target.value = history)
+    this.thinkingTarget.hidden = false
   }
 
   addLatestAnswer() {
@@ -65,13 +65,18 @@ export default class extends Controller {
   }
 
   render() {
-    this.threadTarget.replaceChildren(...this.messages.map((message) => this.messageElement(message)))
-    this.threadTarget.hidden = this.messages.length === 0
-    this.clearButtonTarget.hidden = this.messages.length === 0
+    const hasMessages = this.messages.length > 0
 
-    if (this.hasLatestTarget && this.messages.length > 0) {
+    this.threadTarget.replaceChildren(...this.messages.map((message) => this.messageElement(message)))
+    this.threadTarget.hidden = !hasMessages
+
+    if (this.hasLatestTarget && hasMessages) {
       this.latestTarget.hidden = true
     }
+
+    this.heroSectionTarget.hidden = hasMessages
+    this.chatSectionTarget.hidden = !hasMessages
+    this.element.classList.toggle("halo-page--chatting", hasMessages)
   }
 
   messageElement(message) {
@@ -80,7 +85,7 @@ export default class extends Controller {
 
     const meta = document.createElement("span")
     meta.className = "message__meta"
-    meta.textContent = message.role === "user" ? "You" : this.assistantLabelValue
+    meta.textContent = message.role === "user" ? "You" : "Answer"
     article.append(meta)
 
     const body = document.createElement("p")
@@ -91,7 +96,7 @@ export default class extends Controller {
     if (message.role === "assistant" && message.sources?.length > 0) {
       const label = document.createElement("span")
       label.className = "message__sources-label"
-      label.textContent = this.sourcesLabelValue
+      label.textContent = "Sources"
       article.append(label)
 
       const sources = document.createElement("ul")

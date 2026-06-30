@@ -1,0 +1,155 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 2457 >>
+stream
+BT
+/F1 11 Tf
+54 742 Td
+15 TL
+(HALO Payments, Limits and Fees) Tj
+T*
+(Generated for HALO demo source retrieval.) Tj
+T*
+() Tj
+T*
+(Prototype note: HALO payment rules are fictional, but the structure is inspired by UK) Tj
+T*
+(digital bank payment terms and fee schedules.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Transfer limits) Tj
+T*
+() Tj
+T*
+(The standard daily transfer limit is GBP 25,000 for external UK bank transfers and GBP) Tj
+T*
+(50,000 between the customer's own HALO accounts. Limits reset at 00:00 UK time each day.) Tj
+T*
+() Tj
+T*
+(Customers can see their current payment limits in Settings > Limits. Limits may change) Tj
+T*
+(over time for security, risk, regulatory, or account-history reasons. HALO may also) Tj
+T*
+(pause or refuse a payment if instructions are unclear, if a payment goes over the) Tj
+T*
+(customer's limits, if fraud is suspected, or if a legal or regulatory rule requires it.) Tj
+T*
+() Tj
+T*
+(A temporary transfer limit increase can be requested in Settings > Limits. HALO may ask) Tj
+T*
+(for extra verification before raising a limit.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(UK payments) Tj
+T*
+() Tj
+T*
+(Sending money within the UK by bank transfer is free. Faster Payments usually arrive) Tj
+T*
+(instantly, but can take up to 2 hours. Other bank transfers usually arrive within 1) Tj
+T*
+(working day but may take longer for technical, fraud, legal, or regulatory checks.) Tj
+T*
+() Tj
+T*
+(To make a UK bank transfer, the customer needs the recipient's name, sort code, account) Tj
+T*
+(number, and account type. The customer may approve the transfer with a PIN, security) Tj
+T*
+(code, fingerprint, or face recognition.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Wire transfer fees) Tj
+T*
+() Tj
+T*
+(HALO uses the phrase wire transfer for international bank transfers and foreign-currency) Tj
+T*
+(payments. UK transfers cost GBP 0. International wires show the exchange rate, estimated) Tj
+T*
+(arrival time, fixed fee, and variable fee in the app before confirmation.) Tj
+T*
+() Tj
+T*
+(The fixed fee for an international wire is no more than GBP 9. The variable fee is) Tj
+T*
+(between 0% and 1.80%, depending on destination, currency, route, and payment partner.) Tj
+T*
+(The exact fee must be shown before the customer approves the transfer.) Tj
+T*
+() Tj
+T*
+(Incoming payments in GBP are free. Incoming EUR or other foreign-currency payments are) Tj
+T*
+(converted to GBP before they appear in the account and may have a 1% conversion fee) Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 330 >>
+stream
+BT
+/F1 11 Tf
+54 742 Td
+15 TL
+(capped at GBP 1,000. The payer's bank or intermediary banks may charge their own fees.) Tj
+T*
+() Tj
+T*
+(Card payments in a foreign currency are free from HALO. Overseas ATM withdrawals may) Tj
+T*
+(have a free allowance and then a percentage fee, which is shown in the fee schedule.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000191 00000 n 
+0000002700 00000 n 
+0000002826 00000 n 
+0000003207 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+3333
+%%EOF

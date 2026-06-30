@@ -1,29 +1,12 @@
 module ApplicationHelper
-  def assistant_profile(assistant = nil)
-    profiles = Rails.configuration.x.assistant_profiles || {}
-    default_profile = profiles.fetch("default", {})
-    requested_key = ENV["ASSISTANT_PROFILE"].presence || assistant&.profile_key
-    profile_key = profiles.key?(requested_key) ? requested_key : matching_profile_key(profiles, assistant)
-    profile_key ||= "default"
-
-    default_profile.deep_merge(profiles.fetch(profile_key, {})).merge("key" => profile_key).deep_symbolize_keys
-  end
-
-  def assistant_theme_style(profile)
-    profile.fetch(:theme, {}).map do |token, value|
-      "--#{token.to_s.dasherize}: #{value};"
-    end.join(" ")
-  end
-
-  def assistant_font_stylesheet_url(profile)
-    profile[:font_stylesheet_url].presence
-  end
-
   def source_payload(entries)
-    Array(entries).map do |entry|
+    Array(entries).filter_map do |entry|
+      url = source_document_url(entry)
+      next if url.blank?
+
       {
         title: entry.title,
-        url: source_document_url(entry)
+        url: url
       }
     end
   end
@@ -51,7 +34,7 @@ module ApplicationHelper
   def source_document_url(entry)
     return unless entry.document&.pdf&.attached?
 
-    document_path(entry.document)
+    rails_blob_path(entry.document.pdf, disposition: "inline")
   end
 
   def document_icon
@@ -69,13 +52,5 @@ module ApplicationHelper
       stroke_linejoin: "round",
       aria: { hidden: true }
     )
-  end
-
-  def matching_profile_key(profiles, assistant)
-    return unless assistant&.name.present?
-
-    profiles.find do |_key, profile|
-      Array(profile["assistant_names"]).include?(assistant.name)
-    end&.first
   end
 end

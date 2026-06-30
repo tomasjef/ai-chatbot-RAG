@@ -1,77 +1,159 @@
-<% profile = assistant_profile(@assistant) %>
+<% suggested_questions = [
+  [ "💰", "Check my balance" ],
+  [ "🔁", "Transfer limits" ],
+  [ "🚩", "Dispute a charge" ],
+  [ "🏦", "Wire transfer fees" ],
+  [ "💳", "Lost or stolen card" ],
+  [ "🔑", "Reset my PIN" ]
+] %>
 
-<div
-  class="chat"
-  data-controller="chat"
-  data-chat-storage-key-value="assistant:<%= @assistant.id %>:messages"
-  data-chat-max-messages-value="10"
-  data-chat-latest-question-value="<%= @question.to_s %>"
-  data-chat-latest-answer-value="<%= @answer.to_s %>"
-  data-chat-latest-sources-value="<%= json_escape(source_payload(@used_entries).to_json) %>"
-  data-chat-sources-label-value="<%= profile[:sources_label] %>"
-  data-chat-assistant-label-value="<%= profile[:answer_label] %>"
->
-  <header class="hero">
-    <div class="hero__nav">
-      <div class="wordmark">
-        <%= image_tag profile[:brand_mark], class: "wordmark__mark", alt: "" %>
-        <span class="wordmark__copy">
-          <span class="wordmark__name"><%= profile[:brand_name] %></span>
-          <span class="wordmark__descriptor"><%= profile[:badge_label] %></span>
-        </span>
-      </div>
-      <div class="hero__actions">
-        <button type="button" class="new-chat" data-chat-target="clearButton" data-action="chat#clear">
-          <%= profile[:new_chat_label] %>
-        </button>
-      </div>
+<div class="halo-page"
+     data-controller="chat"
+     data-chat-latest-question-value="<%= @question.to_s %>"
+     data-chat-latest-answer-value="<%= @answer.to_s %>"
+     data-chat-latest-sources-value="<%= json_escape(source_payload(@used_entries).to_json) %>">
+  <div class="halo-aurora" aria-hidden="true"></div>
+
+  <header class="halo-header">
+    <div class="halo-wordmark">
+      <svg viewBox="0 0 64 64" width="48" height="48" aria-label="HALO" style="display:block">
+        <defs>
+          <linearGradient id="hg" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="var(--brand-gradient-start)"/>
+            <stop offset=".55" stop-color="var(--brand-gradient-mid)"/>
+            <stop offset="1" stop-color="var(--brand-gradient-end)"/>
+          </linearGradient>
+        </defs>
+        <circle cx="32" cy="32" r="19" fill="none" stroke="url(#hg)" stroke-width="12.5" stroke-linecap="round" class="halo-logo-glow"/>
+        <circle cx="32" cy="32" r="19" fill="none" stroke="url(#hg)" stroke-width="9.25" stroke-linecap="round"/>
+      </svg>
+      <span class="halo-wordmark__name">HALO</span>
     </div>
 
-    <h1 class="hero__title"><%= profile[:hero_title] %></h1>
+    <div class="halo-header__actions">
+      <button type="button" class="halo-new-chat"
+              data-action="chat#clear">
+        + New question
+      </button>
 
-    <p class="hero__lede"><%= profile[:hero_lede] %></p>
+      <div class="halo-account">
+        <div class="halo-account__avatar">AR</div>
+        <div class="halo-account__info">
+          <span class="halo-account__name">Alex Rivera</span>
+          <span class="halo-account__label">Everyday •••• 4821</span>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <%= form_with url: ask_assistant_path(@assistant), method: :post, data: { turbo: false }, class: "ask" do |f| %>
-      <%= f.hidden_field :conversation_history, data: { chat_target: "history" } %>
-      <%= f.text_field :question, value: nil, placeholder: profile[:input_placeholder], class: "ask__input", autocomplete: "off", data: { chat_target: "input" } %>
-      <%= f.submit profile[:submit_label], class: "ask__button" %>
-    <% end %>
+  <div class="halo-content">
+    <div class="halo-hero" data-chat-target="heroSection">
+      <span class="halo-eyebrow">AI banking support</span>
 
-    <% if profile[:suggested_questions].present? %>
-      <div class="suggestions" aria-label="Suggested questions">
-        <% profile[:suggested_questions].each do |question| %>
-          <% icon, label = question.split(" ", 2) %>
-          <button type="button" class="suggestion" data-action="chat#chooseSuggestion" data-question="<%= label || question %>">
-            <span class="suggestion__icon" aria-hidden="true"><%= icon %></span>
-            <span class="suggestion__label"><%= label || question %></span>
+      <h1 class="halo-title">Answers you can bank on.</h1>
+
+      <p class="halo-lede">Ask anything about your account. Every answer is grounded in real documents, with its sources shown.</p>
+
+      <div class="halo-ask-wrap">
+        <%= form_with url: ask_path, method: :post, data: { turbo: false }, class: "halo-ask" do |f| %>
+          <%= f.hidden_field :conversation_history, data: { chat_target: "history" } %>
+          <%= f.text_field :question, value: nil,
+                placeholder: "Ask about your account…",
+                class: "halo-ask__input",
+                autocomplete: "off",
+                data: { chat_target: "input" } %>
+          <%= f.submit "Ask", class: "halo-ask__button" %>
+        <% end %>
+
+        <p class="halo-encrypted-note">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="10" width="16" height="11" rx="2"/>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+          </svg>
+          End-to-end encrypted · HALO never stores your full account number.
+        </p>
+      </div>
+
+      <div class="halo-chips" aria-label="Suggested questions">
+        <% suggested_questions.each do |icon, label| %>
+          <button type="button" class="halo-chip"
+                  data-action="chat#chooseSuggestion"
+                  data-question="<%= label %>">
+            <span class="halo-chip__icon" aria-hidden="true"><%= icon %></span>
+            <%= label %>
           </button>
         <% end %>
       </div>
-    <% end %>
-  </header>
 
-  <section class="thread" data-chat-target="thread" aria-live="polite"></section>
+      <div class="halo-trust" aria-label="Security certifications">
+        <span class="halo-trust__item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="10" width="16" height="11" rx="2"/>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+          </svg>
+          256-bit encryption
+        </span>
+        <span class="halo-trust__item">
+          <span class="halo-trust__dot" aria-hidden="true"></span>
+          SOC 2 Type II
+        </span>
+        <span class="halo-trust__item">
+          <span class="halo-trust__dot" aria-hidden="true"></span>
+          FDIC member
+        </span>
+      </div>
+    </div>
 
-  <% if @answer.present? %>
-    <section class="answer answer--latest" data-chat-target="latest">
-      <span class="eyebrow eyebrow--brand"><%= profile[:answer_label] %></span>
-      <p class="answer__text"><%= @answer %></p>
-
-      <% if @used_entries.present? && @used_entries.any? %>
-        <div class="sources">
-          <span class="sources__label"><%= profile[:sources_label] %></span>
-          <ul class="sources__list">
-            <% source_payload(@used_entries).each do |source| %>
-              <li><%= source_button(source) %></li>
-            <% end %>
-          </ul>
+    <div class="halo-chat" data-chat-target="chatSection" hidden>
+      <div class="halo-thread-wrap">
+        <div class="thinking" data-chat-target="thinking" hidden aria-live="polite">
+          <span>Searching your documents</span>
+          <span class="thinking__dots" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
         </div>
-      <% end %>
-    </section>
-  <% end %>
 
+        <section class="thread" data-chat-target="thread" aria-live="polite"></section>
+
+        <% if @answer.present? %>
+          <section data-chat-target="latest">
+            <div class="message message--assistant">
+              <span class="message__meta">Answer</span>
+              <p class="message__body"><%= @answer %></p>
+              <% if @used_entries.present? && @used_entries.any? %>
+                <span class="message__sources-label">Sources</span>
+                <ul class="message__sources">
+                  <% source_payload(@used_entries).each do |source| %>
+                    <li><%= source_button(source) %></li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </div>
+          </section>
+        <% end %>
+      </div>
+
+      <div class="halo-chat-input">
+        <%= form_with url: ask_path, method: :post, data: { turbo: false }, class: "halo-ask" do |f| %>
+          <%= f.hidden_field :conversation_history, data: { chat_target: "history" } %>
+          <%= f.text_field :question, value: nil,
+                placeholder: "Ask a follow-up…",
+                class: "halo-ask__input",
+                autocomplete: "off",
+                data: { chat_target: "input" } %>
+          <%= f.submit "Ask", class: "halo-ask__button" %>
+        <% end %>
+
+        <p class="halo-chat-encrypted">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="10" width="16" height="11" rx="2"/>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+          </svg>
+          Encrypted · Answers cite your bank's documents
+        </p>
+      </div>
+    </div>
+
+    <p class="halo-footer-note">Prototype AI chatbot for a fintech customer support experience.</p>
+  </div>
 </div>
-
-<% if profile[:footer_note].present? %>
-  <p class="page-note"><%= profile[:footer_note] %></p>
-<% end %>

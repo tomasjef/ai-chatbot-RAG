@@ -1,0 +1,30 @@
+.halo-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  color: var(--ink-soft);
+  font-size: .72rem;
+  letter-spacing: .04em;
+}
+
+.halo-trust__item {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+
+  svg {
+    display: block;
+    flex: none;
+  }
+}
+
+.halo-trust__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9px;
+  background: var(--brand);
+  display: block;
+  flex: none;
+}

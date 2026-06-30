@@ -3,7 +3,3 @@
 one:
   assistant: one
   filename: MyString
-
-two:
-  assistant: two
-  filename: MyString

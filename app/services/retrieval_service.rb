@@ -7,6 +7,7 @@ class RetrievalService
     query_embedding = EmbeddingService.call(question)
 
     assistant.knowledge_entries
+      .joins(document: :pdf_attachment)
       .nearest_neighbors(:embedding, query_embedding, distance: "cosine")
       .first(limit)
   end

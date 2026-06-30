@@ -1,21 +1,16 @@
 class AssistantsController < ApplicationController
   before_action :authenticate_demo_access
+  before_action :set_assistant
 
   rate_limit to: ENV.fetch("ASK_RATE_LIMIT_MAX", 20).to_i,
     within: ENV.fetch("ASK_RATE_LIMIT_WINDOW_SECONDS", 1.hour.to_i).to_i.seconds,
     only: :ask,
     with: -> { render plain: "Too many questions. Please try again later.", status: :too_many_requests }
 
-  def index
-    @assistants = Assistant.all
-  end
-
   def show
-    @assistant = Assistant.find(params[:id])
   end
 
   def ask
-    @assistant    = Assistant.find(params[:id])
     @question     = params[:question]
     @conversation_history = conversation_history
     @entries      = RetrievalService.call(@assistant, retrieval_question)
@@ -26,6 +21,10 @@ class AssistantsController < ApplicationController
   end
 
   private
+
+  def set_assistant
+    @assistant = Assistant.active
+  end
 
   def conversation_history
     JSON.parse(params[:conversation_history].presence || "[]")

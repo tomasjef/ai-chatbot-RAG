@@ -2,21 +2,21 @@ require "test_helper"
 require "stringio"
 
 class AssistantsControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get assistants_url
+  test "should get assistant" do
+    get root_url
     assert_response :success
   end
 
   test "demo password protects public assistant pages when configured" do
     with_demo_credentials(password: "secret") do
-      get assistants_url
+      get root_url
       assert_response :unauthorized
     end
   end
 
   test "demo password allows public assistant pages with valid credentials" do
     with_demo_credentials(username: "portfolio", password: "secret") do
-      get assistants_url, headers: {
+      get root_url, headers: {
         "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials("portfolio", "secret")
       }
 
@@ -25,13 +25,13 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "admin pages require admin credentials" do
-    get admin_assistants_url
+    get admin_root_url
     assert_response :unauthorized
   end
 
   test "admin pages allow valid admin credentials" do
     with_admin_credentials(username: "owner", password: "secret") do
-      get admin_assistants_url, headers: {
+      get admin_root_url, headers: {
         "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials("owner", "secret")
       }
 
@@ -39,12 +39,26 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "assistant page renders profile suggested questions" do
-    get assistant_url(assistants(:one))
+  test "assistant page renders halo suggested questions" do
+    get root_url
 
     assert_response :success
-    assert_includes response.body, "What can I ask about?"
+    assert_includes response.body, "Check my balance"
     assert_includes response.body, "Prototype AI chatbot"
+  end
+
+  test "halo assistant page keeps chat actions inside controller scope" do
+    get root_url
+
+    assert_response :success
+
+    document = Nokogiri::HTML(response.body)
+    chat_controller = document.at_css("[data-controller~='chat']")
+
+    assert_not_nil chat_controller
+    assert_includes chat_controller["class"], "halo-page"
+    assert_not_nil chat_controller.at_css("[data-action='chat#clear']")
+    assert_equal 2, chat_controller.css("form[action='#{ask_path}']").size
   end
 
   test "ask accepts recent browser session conversation history" do
@@ -63,7 +77,7 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
         captured_history = conversation_history
         { answer: "Halo Plus costs 4 pounds a month.", used_entries: [] }
       }) do
-        post ask_assistant_url(assistants(:one)), params: {
+        post ask_url, params: {
           question: "What about Plus?",
           conversation_history: history.to_json
         }
@@ -78,7 +92,7 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
 
   test "ask renders source buttons that link to attached PDFs" do
     document = documents(:one)
-    document.pdf.attach(io: StringIO.new("%PDF-1.4\n"), filename: "terms.pdf", content_type: "application/pdf")
+    document.pdf.attach(io: StringIO.new("%PDF-1.4\n"), filename: "uploaded_terms.pdf", content_type: "application/pdf")
     entry = knowledge_entries(:one)
     entry.update!(document: document)
 
@@ -86,13 +100,14 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
       with_singleton_method(AnswerService, :call, ->(_assistant, _question, _entries, _conversation_history) {
         { answer: "Use the card settings screen.", used_entries: [ entry ] }
       }) do
-        post ask_assistant_url(assistants(:one)), params: { question: "Where do I freeze my card?" }
+        post ask_url, params: { question: "Where do I freeze my card?" }
       end
     end
 
     assert_response :success
     assert_includes response.body, "Sources"
-    assert_includes response.body, document_path(document)
+    assert_includes response.body, rails_blob_path(document.pdf, disposition: "inline")
+    refute_includes response.body, document_path(document)
     assert_includes response.body, "source-button__icon"
   end
 
@@ -108,7 +123,8 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
 
   test "document PDFs open inline with valid demo credentials" do
     document = documents(:one)
-    document.pdf.attach(io: StringIO.new("%PDF-1.4\n"), filename: "terms.pdf", content_type: "application/pdf")
+    uploaded_pdf = "%PDF-1.4\nuploaded source pdf\n%%EOF\n"
+    document.pdf.attach(io: StringIO.new(uploaded_pdf), filename: "terms.pdf", content_type: "application/pdf")
 
     with_demo_credentials(username: "portfolio", password: "secret") do
       get document_url(document), headers: {
@@ -119,6 +135,7 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "application/pdf", response.media_type
     assert_includes response.headers["Content-Disposition"], "inline"
+    assert_equal uploaded_pdf, response.body
   end
 
   private

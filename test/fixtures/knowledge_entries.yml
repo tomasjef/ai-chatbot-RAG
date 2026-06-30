@@ -2,12 +2,7 @@
 
 one:
   assistant: one
-  title: MyString
-  content: MyText
-  category: MyString
-
-two:
-  assistant: two
+  document: one
   title: MyString
   content: MyText
   category: MyString

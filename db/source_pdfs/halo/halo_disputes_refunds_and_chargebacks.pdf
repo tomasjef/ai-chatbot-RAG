@@ -1,0 +1,106 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 2022 >>
+stream
+BT
+/F1 11 Tf
+54 742 Td
+15 TL
+(HALO Disputes, Refunds and Chargebacks) Tj
+T*
+(Generated for HALO demo source retrieval.) Tj
+T*
+() Tj
+T*
+(Prototype note: HALO disputes content is fictional and modelled on UK current-account) Tj
+T*
+(refund and card-dispute principles.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Dispute a charge) Tj
+T*
+() Tj
+T*
+(If the customer does not recognise a card charge, they should freeze the card first,) Tj
+T*
+(then open the transaction in the HALO app and choose Help > I don't recognise this) Tj
+T*
+(transaction. HALO will ask what happened and may request evidence such as receipts,) Tj
+T*
+(merchant messages, delivery proof, or cancellation confirmation.) Tj
+T*
+() Tj
+T*
+(The customer should tell HALO as soon as possible. If the customer waits more than 13) Tj
+T*
+(months from the date money left the account, HALO may not be able to recover the money.) Tj
+T*
+() Tj
+T*
+(For merchant disputes, the customer should usually contact the merchant first unless) Tj
+T*
+(fraud is suspected. HALO can raise a card chargeback where the goods or services were) Tj
+T*
+(not received, were significantly not as described, the merchant charged twice, the) Tj
+T*
+(merchant did not provide an agreed refund, or the final amount was higher than) Tj
+T*
+(reasonably expected.) Tj
+T*
+() Tj
+T*
+(If a card payment was made before the final amount was known, such as a hotel, hire car,) Tj
+T*
+(or fuel deposit, and the final amount is higher than the customer could reasonably) Tj
+T*
+(expect, the customer should report it within 8 weeks and provide requested information.) Tj
+T*
+() Tj
+T*
+(If a Direct Debit is taken in error by HALO or the company collecting it, the customer) Tj
+T*
+(is entitled to an immediate refund under the Direct Debit Guarantee.) Tj
+T*
+() Tj
+T*
+(HALO will usually refund unauthorised payments, payments taken after the card was) Tj
+T*
+(frozen, and payment losses caused by HALO's own mistake, unless the customer acted) Tj
+T*
+(fraudulently or failed to keep security details safe.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000185 00000 n 
+0000002259 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2385
+%%EOF

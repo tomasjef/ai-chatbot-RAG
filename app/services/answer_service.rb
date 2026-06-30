@@ -6,6 +6,9 @@ class AnswerService
   end
 
   def call(assistant, question, entries, conversation_history = [])
+    entries = document_entries(entries)
+    return missing_information_response if entries.empty?
+
     response = client.chat(
       parameters: {
         model: MODEL,
@@ -30,6 +33,17 @@ class AnswerService
   end
 
   private
+
+  def document_entries(entries)
+    Array(entries).select { |entry| entry.document&.pdf&.attached? }
+  end
+
+  def missing_information_response
+    {
+      answer: "I don't have that information in the uploaded documents. Please contact Halo support for help.",
+      used_entries: []
+    }
+  end
 
   def system_prompt(assistant)
     <<~ENGINE

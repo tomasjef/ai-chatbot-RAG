@@ -1,0 +1,118 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 2151 >>
+stream
+BT
+/F1 11 Tf
+54 742 Td
+15 TL
+(HALO Cards, PIN and Security) Tj
+T*
+(Generated for HALO demo source retrieval.) Tj
+T*
+() Tj
+T*
+(Prototype note: HALO card support is fictional, but follows common UK digital bank) Tj
+T*
+(card-security patterns.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Lost or stolen card) Tj
+T*
+() Tj
+T*
+(If a card is lost, stolen, damaged, or used for transactions the customer does not) Tj
+T*
+(recognise, the customer should freeze the card immediately in the HALO app and tell HALO) Tj
+T*
+(as soon as possible.) Tj
+T*
+() Tj
+T*
+(To replace a lost or damaged card, go to Home > Card > Freeze, then choose Order a new) Tj
+T*
+(card and select the reason for replacement. If the card was stolen or fraud is) Tj
+T*
+(suspected, choose I've been a victim of fraud or theft.) Tj
+T*
+() Tj
+T*
+(If the customer cannot access the HALO app, they can use HALO Web to freeze the card, or) Tj
+T*
+(contact support by phone or email. The virtual card can remain available for online) Tj
+T*
+(payments if HALO has not cancelled it for security reasons.) Tj
+T*
+() Tj
+T*
+(HALO does not charge for replacement cards that expire, arrive faulty, are stolen, are) Tj
+T*
+(swallowed by an ATM, or are cancelled because HALO is concerned about fraud. HALO may) Tj
+T*
+(charge GBP 5 for replacement cards that are lost or damaged after the free replacement) Tj
+T*
+(allowance. Replacement cards sent outside the UK may cost GBP 30.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Reset my PIN) Tj
+T*
+() Tj
+T*
+(If a customer forgets their PIN or enters the wrong PIN too many times, they can recover) Tj
+T*
+(or reset the PIN in the app. Go to Card, choose Reveal PIN or Reset PIN, then complete) Tj
+T*
+(identity checks such as biometric confirmation or a short selfie video.) Tj
+T*
+() Tj
+T*
+(HALO will never ask for the customer's PIN, full card number, or three-digit CVC in) Tj
+T*
+(chat, email, or by phone. The customer should keep the PIN secret, even from HALO staff.) Tj
+T*
+() Tj
+T*
+(After identity verification, HALO can show the PIN reminder or unblock PIN use. ATM and) Tj
+T*
+(card-network systems can take up to 30 minutes to reflect a PIN change or unblock.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000185 00000 n 
+0000002388 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2514
+%%EOF

@@ -1,0 +1,41 @@
+.halo-chips {
+  width: 100%;
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: .6rem;
+  text-align: left;
+}
+
+.halo-chip {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem .85rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 500;
+  text-align: left;
+  transition: border-color .15s, background .15s;
+
+  &:hover {
+    border-color: var(--brand);
+    background: #fff;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-tint);
+    outline-offset: 2px;
+  }
+}
+
+.halo-chip__icon {
+  flex: none;
+  font-size: 1.15rem;
+  line-height: 1;
+}

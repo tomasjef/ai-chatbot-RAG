@@ -1,0 +1,15 @@
+.halo-aurora {
+  position: fixed;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(80px) saturate(110%);
+  opacity: .8;
+  background:
+    radial-gradient(45% 55% at 18% 28%, var(--aurora-blue) 0, transparent 65%),
+    radial-gradient(38% 48% at 76% 22%, var(--aurora-gold) 0, transparent 65%),
+    radial-gradient(50% 55% at 62% 72%, var(--aurora-violet) 0, transparent 65%),
+    radial-gradient(42% 50% at 28% 82%, var(--aurora-cyan) 0, transparent 65%);
+  background-color: var(--bg);
+  animation: drift 32s ease-in-out infinite alternate;
+}
