@@ -12,10 +12,7 @@ class DocumentsController < ApplicationController
     end
 
     if (path = document.bundled_pdf_path)
-      return send_file path,
-        filename: document.filename,
-        type: "application/pdf",
-        disposition: "inline"
+      return send_bundled_pdf(path)
     end
 
     head :not_found
@@ -28,8 +25,12 @@ class DocumentsController < ApplicationController
   def retry_without_attachment(document)
     return head :not_found unless (path = document.bundled_pdf_path)
 
-    send_file path,
-      filename: document.filename,
+    send_bundled_pdf(path)
+  end
+
+  def send_bundled_pdf(path)
+    send_data path.binread,
+      filename: path.basename.to_s,
       type: "application/pdf",
       disposition: "inline"
   end
