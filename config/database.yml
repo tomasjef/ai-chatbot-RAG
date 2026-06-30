@@ -84,13 +84,19 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+<%
+  production_database_url = ENV["DATABASE_URL"]
+  if production_database_url.to_s.empty? && [ ENV["RAILS_ENV"], ENV["RACK_ENV"] ].include?("production")
+    raise "DATABASE_URL is required in production. Attach Heroku Postgres before running migrations."
+  end
+%>
 production:
   primary:
     <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= production_database_url %>
   cache:
     <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= production_database_url %>
   cable:
     <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= production_database_url %>
