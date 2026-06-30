@@ -39,3 +39,17 @@
   font-size: 1.15rem;
   line-height: 1;
 }
+
+@media (max-width: 720px) {
+  .halo-chips {
+    grid-template-columns: 1fr;
+    gap: .65rem;
+  }
+
+  .halo-chip {
+    min-height: 58px;
+    padding: .8rem .95rem;
+    border-radius: 10px;
+    font-size: .98rem;
+  }
+}

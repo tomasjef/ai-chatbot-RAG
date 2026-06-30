@@ -37,3 +37,37 @@
   line-height: 1.45;
   text-wrap: pretty;
 }
+
+@media (max-width: 720px) {
+  .halo-hero {
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .halo-eyebrow {
+    font-size: .7rem;
+    letter-spacing: .13em;
+  }
+
+  .halo-title {
+    font-size: clamp(2.25rem, 10.5vw, 2.85rem);
+    line-height: 1.03;
+  }
+
+  .halo-lede {
+    font-size: clamp(1.05rem, 5vw, 1.25rem);
+    line-height: 1.38;
+  }
+}
+
+@media (max-width: 360px) {
+  .halo-title {
+    font-size: 2.3rem;
+  }
+
+  .halo-lede {
+    font-size: 1.08rem;
+  }
+}
