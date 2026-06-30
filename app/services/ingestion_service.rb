@@ -4,21 +4,23 @@ class IngestionService
   end
 
   def call(assistant, file_path, source_name:, attachable: nil)
-    text   = PdfTextService.call(file_path)
+    text = PdfTextService.call(file_path)
     chunks = ChunkingService.call(text)
+    embeddings = chunks.map { |chunk| EmbeddingService.call(chunk) }
 
-    document = assistant.documents.create!(filename: source_name)
-    attach_pdf(document, file_path, source_name, attachable)
+    ApplicationRecord.transaction do
+      document = assistant.documents.create!(filename: source_name)
+      attach_pdf(document, file_path, source_name, attachable)
 
-    chunks.each_with_index do |chunk, i|
-      entry = assistant.knowledge_entries.build(
-        document: document,
-        title:    "#{source_name} (part #{i + 1})",
-        content:  chunk,
-        category: "document"
-      )
-      entry.embedding = EmbeddingService.call(chunk)
-      entry.save!
+      chunks.zip(embeddings).each.with_index(1) do |(chunk, embedding), index|
+        assistant.knowledge_entries.create!(
+          document: document,
+          title: "#{source_name} (part #{index})",
+          content: chunk,
+          category: "document",
+          embedding: embedding
+        )
+      end
     end
 
     chunks.size

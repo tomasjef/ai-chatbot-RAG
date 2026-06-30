@@ -24,10 +24,7 @@ class AnswerService
     raw    = response.dig("choices", 0, "message", "content")
     parsed = JSON.parse(raw)
 
-    used_numbers = Array(parsed["sources"]).map(&:to_i)
-    used_entries = used_numbers.map { |n| entries[n - 1] }.compact
-
-    { answer: parsed["answer"], used_entries: used_entries }
+    { answer: parsed["answer"], used_entries: used_entries(parsed["sources"], entries) }
   rescue JSON::ParserError
     { answer: raw, used_entries: [] }
   end
@@ -43,6 +40,13 @@ class AnswerService
       answer: "I don't have that information in the uploaded documents. Please contact Halo support for help.",
       used_entries: []
     }
+  end
+
+  def used_entries(source_numbers, entries)
+    Array(source_numbers).filter_map do |source_number|
+      index = source_number.to_i - 1
+      entries[index] if index.between?(0, entries.length - 1)
+    end.uniq
   end
 
   def system_prompt(assistant)

@@ -6,9 +6,7 @@ class EmbeddingService
   end
 
   def call(text)
-    response = client.embeddings(
-      parameters: { model: MODEL, input: text }
-    )
+    response = client.embeddings(parameters: { model: MODEL, input: text })
     response.dig("data", 0, "embedding")
   end
 

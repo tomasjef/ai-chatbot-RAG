@@ -6,7 +6,6 @@ class PdfTextService
   end
 
   def call(file_path)
-    reader = PDF::Reader.new(file_path)
-    reader.pages.map(&:text).join("\n\n")
+    PDF::Reader.new(file_path).pages.map(&:text).join("\n\n")
   end
 end
