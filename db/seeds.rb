@@ -6,20 +6,22 @@ halo.system_prompt = Assistant::DEFAULT_SYSTEM_PROMPT
 halo.save!
 puts "Created assistant: #{halo.name}"
 
-Document.find_each do |document|
-  document.pdf.purge if document.pdf.attached?
-  document.destroy!
-end
-KnowledgeEntry.delete_all
-Assistant.where.not(id: halo.id).delete_all
-ActiveStorage::Blob.unattached.find_each(&:purge)
-puts "Cleared existing source documents and knowledge entries"
+total_count = 0
+document_count = 0
 
-total_count = source_paths.sum do |source_path|
+source_paths.each do |source_path|
   path = Pathname.new(source_path)
-  count = IngestionService.call(halo, path, source_name: path.basename.to_s)
-  puts "Ingested #{count} passages from #{path.basename}"
-  count
+  filename = path.basename.to_s
+
+  if halo.documents.exists?(filename: filename)
+    puts "Skipped #{filename}; already ingested"
+    next
+  end
+
+  count = IngestionService.call(halo, path, source_name: filename)
+  total_count += count
+  document_count += 1
+  puts "Ingested #{count} passages from #{filename}"
 end
 
-puts "Ingested #{total_count} passages from #{source_paths.size} source PDFs"
+puts "Ingested #{total_count} passages from #{document_count} new source PDFs"
