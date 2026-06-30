@@ -4,6 +4,7 @@ require "tempfile"
 class IngestionServiceTest < ActiveSupport::TestCase
   test "creates a pdf backed document and entries from extracted chunks" do
     assistant = assistants(:one)
+    embedding = vector
     pdf = Tempfile.new([ "source", ".pdf" ])
     pdf.binmode
     pdf.write("%PDF-1.4\n")
@@ -11,7 +12,7 @@ class IngestionServiceTest < ActiveSupport::TestCase
 
     with_singleton_method(PdfTextService, :call, ->(_path) { "PDF text" }) do
       with_singleton_method(ChunkingService, :call, ->(_text) { [ "First chunk", "Second chunk" ] }) do
-        with_singleton_method(EmbeddingService, :call, ->(_chunk) { vector }) do
+        with_singleton_method(EmbeddingService, :call, ->(_chunk) { embedding }) do
           assert_equal 2, IngestionService.call(assistant, pdf.path, source_name: "source.pdf")
         end
       end

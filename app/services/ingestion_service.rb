@@ -1,3 +1,5 @@
+require "stringio"
+
 class IngestionService
   def self.call(assistant, file_path, source_name:, attachable: nil)
     new.call(assistant, file_path, source_name: source_name, attachable: attachable)
@@ -32,13 +34,11 @@ class IngestionService
     if attachable.present?
       document.pdf.attach(attachable)
     else
-      File.open(file_path, "rb") do |file|
-        document.pdf.attach(
-          io: file,
-          filename: source_name,
-          content_type: "application/pdf"
-        )
-      end
+      document.pdf.attach(
+        io: StringIO.new(File.binread(file_path)),
+        filename: source_name,
+        content_type: "application/pdf"
+      )
     end
   end
 end

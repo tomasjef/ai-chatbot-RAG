@@ -35,11 +35,21 @@ class AnswerServiceTest < ActiveSupport::TestCase
     fake_client = Object.new
     fake_client.define_singleton_method(:chat) { |parameters:| response }
 
-    OpenAI::Client.stub(:new, fake_client) do
+    with_singleton_method(OpenAI::Client, :new, -> { fake_client }) do
       result = AnswerService.call(assistants(:one), "What is the transfer limit?", [ entry ])
 
       assert_equal "The transfer limit is GBP 25,000.", result[:answer]
       assert_equal [ entry ], result[:used_entries]
     end
+  end
+
+  private
+
+  def with_singleton_method(object, method_name, replacement)
+    original = object.method(method_name)
+    object.define_singleton_method(method_name, replacement)
+    yield
+  ensure
+    object.define_singleton_method(method_name, original)
   end
 end

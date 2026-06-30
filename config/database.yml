@@ -85,16 +85,12 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
+  primary:
     <<: *default
-    database: ai_chatbot_rag_production
-    username: ai_chatbot_rag
-    password: <%= ENV["AI_CHATBOT_RAG_DATABASE_PASSWORD"] %>
+    url: <%= ENV["DATABASE_URL"] %>
   cache:
-    <<: *primary_production
-    database: ai_chatbot_rag_production_cache
-    migrations_paths: db/cache_migrate
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
   cable:
-    <<: *primary_production
-    database: ai_chatbot_rag_production_cable
-    migrations_paths: db/cable_migrate
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
