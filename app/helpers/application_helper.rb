@@ -32,9 +32,9 @@ module ApplicationHelper
   private
 
   def source_document_url(entry)
-    return unless entry.document&.pdf&.attached?
+    return unless entry.document&.source_available?
 
-    rails_blob_path(entry.document.pdf, disposition: "inline")
+    document_path(entry.document)
   end
 
   def document_icon

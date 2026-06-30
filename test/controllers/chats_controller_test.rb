@@ -90,7 +90,7 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
     assert_includes captured_retrieval_question, "What about Plus?"
   end
 
-  test "ask renders source buttons that link to attached PDFs" do
+  test "ask renders source buttons through the app document route" do
     document = documents(:one)
     document.pdf.attach(io: StringIO.new("%PDF-1.4\n"), filename: "uploaded_terms.pdf", content_type: "application/pdf")
     entry = knowledge_entries(:one)
@@ -106,8 +106,8 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_includes response.body, "Sources"
-    assert_includes response.body, rails_blob_path(document.pdf, disposition: "inline")
-    refute_includes response.body, document_path(document)
+    assert_includes response.body, document_path(document)
+    refute_includes response.body, rails_blob_path(document.pdf, disposition: "inline")
     assert_includes response.body, "source-button__icon"
   end
 
@@ -136,6 +136,18 @@ class AssistantsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "application/pdf", response.media_type
     assert_includes response.headers["Content-Disposition"], "inline"
     assert_equal uploaded_pdf, response.body
+  end
+
+  test "seeded document PDFs fall back to bundled source files" do
+    document = documents(:one)
+    document.update!(filename: "halo_payments_limits_and_fees.pdf")
+
+    get document_url(document)
+
+    assert_response :success
+    assert_equal "application/pdf", response.media_type
+    assert_includes response.headers["Content-Disposition"], "inline"
+    assert_includes response.body, "%PDF"
   end
 
   private
