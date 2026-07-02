@@ -20,7 +20,3 @@ The app includes a simple admin flow for adding source PDFs. Uploaded documents 
 - OpenAI embeddings and responses
 - Hotwire, Stimulus, SCSS
 - Propshaft and Dart Sass
-
-## Demo Sources
-
-The included demo uses the PDFs in `db/source_pdfs/halo`. In other deployments, the assistant answers from whichever PDFs are uploaded through the admin knowledge-base flow.
