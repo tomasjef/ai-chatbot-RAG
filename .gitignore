@@ -36,3 +36,7 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# Local database backups (contains real data, never commit).
+/backups/*
+!/backups/.keep
