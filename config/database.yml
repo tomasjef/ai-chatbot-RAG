@@ -85,9 +85,9 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 <%
-  production_database_url = ENV["DATABASE_URL"]
+  production_database_url = ENV.fetch("NEON_DATABASE_URL") { ENV["DATABASE_URL"] }
   if production_database_url.to_s.empty? && [ ENV["RAILS_ENV"], ENV["RACK_ENV"] ].include?("production")
-    raise "DATABASE_URL is required in production. Attach Heroku Postgres before running migrations."
+    raise "NEON_DATABASE_URL or DATABASE_URL is required in production."
   end
 %>
 production:
