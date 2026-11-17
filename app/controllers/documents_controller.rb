@@ -4,6 +4,13 @@ class DocumentsController < ApplicationController
   def show
     document = Document.find(params[:id])
 
+    if (stored = document.stored_file)
+      return send_data stored.data,
+        filename: document.filename,
+        type: "application/pdf",
+        disposition: "inline"
+    end
+
     if document.pdf.attached?
       return send_data document.pdf.download,
         filename: document.filename,

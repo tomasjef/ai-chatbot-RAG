@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_30_142100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_17_101032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -48,6 +48,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_142100) do
     t.string "name"
     t.text "system_prompt"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "document_files", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.binary "data", null: false
+    t.bigint "document_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_id"], name: "index_document_files_on_document_id", unique: true
   end
 
   create_table "documents", force: :cascade do |t|
@@ -94,6 +102,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_142100) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "document_files", "documents", on_delete: :cascade
   add_foreign_key "documents", "assistants"
   add_foreign_key "knowledge_entries", "assistants"
   add_foreign_key "knowledge_entries", "documents"

@@ -19,6 +19,11 @@ class Admin::AssistantsController < ApplicationController
     else
       redirect_to admin_root_path, alert: "Please choose a PDF to upload."
     end
+  rescue PDF::Reader::MalformedPDFError, PDF::Reader::UnsupportedFeatureError
+    redirect_to admin_root_path, alert: "Couldn't read #{uploaded.original_filename}. Please upload a text-based PDF."
+  rescue Faraday::Error => e
+    Rails.logger.warn("PDF indexing failed: #{e.class} - #{e.message}")
+    redirect_to admin_root_path, alert: "Couldn't index #{uploaded.original_filename} right now. Please try again."
   end
 
   private

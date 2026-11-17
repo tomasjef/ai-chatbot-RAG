@@ -18,6 +18,11 @@ class AssistantsController < ApplicationController
     @answer       = result[:answer]
     @used_entries = result[:used_entries]
     render :show
+  rescue Faraday::Error => e
+    Rails.logger.warn("Answer failed: #{e.class} - #{e.message}")
+    @answer = "Sorry, I can't answer right now. Please try again in a moment."
+    @used_entries = []
+    render :show
   end
 
   private

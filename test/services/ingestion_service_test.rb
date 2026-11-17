@@ -10,16 +10,20 @@ class IngestionServiceTest < ActiveSupport::TestCase
     pdf.write("%PDF-1.4\n")
     pdf.rewind
 
+    batches = []
+
     with_singleton_method(PdfTextService, :call, ->(_path) { "PDF text" }) do
       with_singleton_method(ChunkingService, :call, ->(_text) { [ "First chunk", "Second chunk" ] }) do
-        with_singleton_method(EmbeddingService, :call, ->(_chunk) { embedding }) do
+        with_singleton_method(EmbeddingService, :batch, ->(chunks) { batches << chunks; chunks.map { embedding } }) do
           assert_equal 2, IngestionService.call(assistant, pdf.path, source_name: "source.pdf")
         end
       end
     end
 
+    assert_equal [ [ "First chunk", "Second chunk" ] ], batches, "all passages embedded in one request"
     document = assistant.documents.find_by!(filename: "source.pdf")
     assert_predicate document.pdf, :attached?
+    assert_equal "%PDF-1.4\n", document.stored_file.data, "a lasting copy of the PDF is kept in the database"
     assert_equal [ "source.pdf (part 1)", "source.pdf (part 2)" ],
       document.knowledge_entries.order(:title).pluck(:title)
   ensure

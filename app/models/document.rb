@@ -11,13 +11,15 @@ class Document < ApplicationRecord
   belongs_to :assistant
   has_many :knowledge_entries, dependent: :destroy
   has_one_attached :pdf
+  # The lasting copy of an uploaded PDF; the attachment's file on Heroku's disk goes at the next restart
+  has_one :stored_file, class_name: "DocumentFile", dependent: :delete
 
   def source_available?
-    pdf.attached? || bundled_pdf_path.present?
+    pdf.attached? || stored_file.present? || bundled_pdf_path.present?
   end
 
   def bundled_pdf_path
     path = BUNDLED_PDFS[filename.to_s]
-    path if path.file?
+    path if path&.file?
   end
 end

@@ -8,11 +8,12 @@ class IngestionService
   def call(assistant, file_path, source_name:, attachable: nil)
     text = PdfTextService.call(file_path)
     chunks = ChunkingService.call(text)
-    embeddings = chunks.map { |chunk| EmbeddingService.call(chunk) }
+    embeddings = EmbeddingService.batch(chunks)
 
     ApplicationRecord.transaction do
       document = assistant.documents.create!(filename: source_name)
       attach_pdf(document, file_path, source_name, attachable)
+      document.create_stored_file!(data: File.binread(file_path))
 
       chunks.zip(embeddings).each.with_index(1) do |(chunk, embedding), index|
         assistant.knowledge_entries.create!(
